@@ -33,3 +33,18 @@ def get_codes(filename: str) -> dict:
         else:
             code_counts[code] = 1
     return code_counts
+
+
+def find_most_common_code(code_counts: dict) -> tuple:
+    """
+    Finds the most common 3-digit code
+
+    Parameters:
+        code_counts (dict): A dictionary where keys are 3-digit area codes
+        and values
+
+    Returns:
+        tuple: A tuple containing the most common code and its count,
+    """
+    most_common_code = max(code_counts.items(), key=lambda item: item[1])
+    return most_common_code
