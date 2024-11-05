@@ -48,3 +48,20 @@ def find_most_common_code(code_counts: dict) -> tuple:
     """
     most_common_code = max(code_counts.items(), key=lambda item: item[1])
     return most_common_code
+
+
+def main():
+    args = parser_of_file()
+
+    try:
+        codes = get_codes(args.filename)
+        max_codes = find_most_common_code(codes)
+        print(f"The most common code is '{max_codes[0]}' with {max_codes[1]} occurrences.")
+    except FileNotFoundError:
+        print("FILE ERROR")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
+if __name__ == "__main__":
+    main()
