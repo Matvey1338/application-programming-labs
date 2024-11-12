@@ -3,7 +3,7 @@ from icrawler.builtin import GoogleImageCrawler
 base_dir = 'images'
 
 
-def download_images(keyword: str, max_num: int, save_dir=base_dir) -> str:
+def download_images(keyword: str, max_num: int = 50, save_dir=base_dir) -> None:
     """
     Func for downloading images
 
@@ -19,4 +19,4 @@ def download_images(keyword: str, max_num: int, save_dir=base_dir) -> str:
         downloader_threads=4
     )
     google_crawler.crawl(keyword=keyword, max_num=max_num)
-    return save_dir
+

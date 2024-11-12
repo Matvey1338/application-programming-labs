@@ -14,7 +14,7 @@ class ImgIterator:
         Parameters:
         name (str): name of csv-file.
         """
-        self.csv_file = name if name.endswith(".csv") else f"{name}.csv"
+        self.csv_file = name
         self.file_exist = os.path.exists(self.csv_file)
 
     def __iter__(self):

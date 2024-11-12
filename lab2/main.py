@@ -28,16 +28,17 @@ def _parse_arguments() -> Namespace:
 def main():
     args = _parse_arguments()
     try:
-        images_dir = download_images(args.keyword, args.number, save_dir=args.dir)
-        csv_paths = convert_to_csv(images_dir, csv_filename=args.csv)
+        #download_images(args.keyword, args.number, save_dir=args.dir)
+        csv_paths = convert_to_csv(args.dir, csv_filename=args.csv)
     except FileNotFoundError:
         print(FileNotFoundError)
         exit()
 
     image_iterator = ImgIterator(csv_paths)
+
     print(f"Rel. and abs. path's for images with \"{args.keyword}\":")
     for rel_path, abs_path in image_iterator:
-        sleep(0.15)
+        sleep(0.1)
         print(rel_path + " " + abs_path)
 
 

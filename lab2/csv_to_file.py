@@ -22,9 +22,8 @@ def convert_to_csv(where_images: str, csv_filename: str = csv_file) -> str:
 
         for file in os.listdir(where_images):
             absolute_path = os.path.join(image_dir, file)
-            real_path = os.path.relpath(absolute_path, start=csv_filename)
-            print(real_path, absolute_path)
+            rel_path = os.path.relpath(absolute_path)
 
-            csv_writer.writerow((real_path, absolute_path))
+            csv_writer.writerow((rel_path, absolute_path))
 
     return csv_filename
