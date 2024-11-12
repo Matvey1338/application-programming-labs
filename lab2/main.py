@@ -1,8 +1,11 @@
 import argparse
+from argparse import Namespace
+
 from image_to_dir import download_images, base_dir
 from csv_to_file import convert_to_csv, csv_file
 
-def _parse_arguments() -> list:
+
+def _parse_arguments() -> Namespace:
     """
     Parse arguments from stdin in execution moment.
     Returns:
