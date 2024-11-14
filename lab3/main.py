@@ -10,9 +10,9 @@ def _parse_arguments() -> Namespace:
     """
     parser = argparse.ArgumentParser(
         prog="main.py",
-        description="Poka HZ",
+        description="path to file to convert",
     )
-    parser.add_argument("???", type=str, help="Unknown for now")
+    parser.add_argument("path", type=str, help="path to file")
 
     return parser.parse_args()
 
