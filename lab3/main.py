@@ -1,6 +1,8 @@
 import argparse
 from argparse import Namespace
 
+from cv_file_reader import image_analyze
+
 
 def _parse_arguments() -> Namespace:
     """
@@ -19,6 +21,7 @@ def _parse_arguments() -> Namespace:
 
 def main():
     args = _parse_arguments()
+    image_analyze(args.path)
 
 
 if __name__ == "__main__":
