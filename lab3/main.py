@@ -14,14 +14,14 @@ def _parse_arguments() -> Namespace:
         prog="main.py",
         description="path to file to convert",
     )
-    parser.add_argument("path", type=str, help="path to file")
-
+    parser.add_argument("pth1image", type=str, help="path to first image")
+    parser.add_argument("pth2image", type=str, help="path to second image")
     return parser.parse_args()
 
 
 def main():
     args = _parse_arguments()
-    image_analyze(args.path)
+    image_analyze(args.pth1image)
 
 
 if __name__ == "__main__":

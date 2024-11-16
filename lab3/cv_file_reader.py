@@ -25,3 +25,24 @@ def image_analyze(path: str):
     plt.grid()
     plt.show()
 
+def image_blend():
+    # Чтение изображений
+    image1 = cv2.imread(image1_path)
+    image2 = cv2.imread(image2_path)
+
+    # Изменение размера второго изображения, чтобы оно соответствовало первому
+    image2 = cv2.resize(image2, (image1.shape[1], image1.shape[0]))
+
+    # Установка параметра прозрачности (alpha)
+    alpha = 0.5  # Прозрачность (0.0 полностью прозрачно, 1.0 полностью непрозрачно)
+    beta = 1 - alpha
+
+    # Наложение изображений
+    blended_image = cv2.addWeighted(image1, alpha, image2, beta, 0)
+
+    # Показ результата
+    plt.figure(figsize=(10, 6))
+    plt.title("Blended Image")
+    plt.axis('off')
+    plt.imshow(cv2.cvtColor(blended_image, cv2.COLOR_BGR2RGB))
+    plt.show()
