@@ -83,6 +83,7 @@ def image_blend(og_image: str, blend_image: str, transparency: float = 0.5):
     plt.title("Blended Image")
     plt.axis('off')
     plt.imshow(cv2.cvtColor(blended_image, cv2.COLOR_BGR2RGB))
+
     plt.show()
 
     cv2.imwrite('./lab3/blended_image.jpg', blended_image)
