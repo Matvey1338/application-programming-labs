@@ -28,25 +28,27 @@ def image_analyze(path: str):
 
 
 def image_blend(og_image: str, blend_image: str):
-    # Чтение изображений
     image1 = cv2.imread(og_image)
     image2 = cv2.imread(blend_image)
 
     image2 = cv2.resize(image2, (image1.shape[1], image1.shape[0]))
 
-    # Установка параметра прозрачности (alpha)
-    alpha = 0.5  # Прозрачность (0.0 полностью прозрачно, 1.0 полностью непрозрачно)
+    alpha = 0.5
     beta = 1 - alpha
 
-    # Наложение изображений
     blended_image = cv2.addWeighted(image1, alpha, image2, beta, 0)
 
-    # Показ результата
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(15, 6))
+
+    plt.subplot(1, 2, 1)
+    plt.title("Original Image")
+    plt.axis('off')
+    plt.imshow(cv2.cvtColor(image1, cv2.COLOR_BGR2RGB))
+
+    plt.subplot(1, 2, 2)
     plt.title("Blended Image")
     plt.axis('off')
-    #plt.imshow(cv2.cvtColor(blended_image, cv2.COLOR_BGR2RGB))
-    plt.imshow(blended_image)
+    plt.imshow(cv2.cvtColor(blended_image, cv2.COLOR_BGR2RGB))
     plt.show()
 
     cv2.imwrite('./lab3/blended_image.jpg', blended_image)
