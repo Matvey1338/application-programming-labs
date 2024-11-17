@@ -43,13 +43,14 @@ def image_analyze(path: str):
     plt.show()
 
 
-def image_blend(og_image: str, blend_image: str):
+def image_blend(og_image: str, blend_image: str, transparency: float = 0.5):
     """
       Blends two images together and displays the result alongside the original image.
 
       Args:
           og_image (str): The file path to the first (original) image.
           blend_image (str): The file path to the second image to blend with the original.
+          transparency (float): The modifier of blend image
 
       Description:
           - Loads both images in color mode using OpenCV.
@@ -66,7 +67,7 @@ def image_blend(og_image: str, blend_image: str):
 
     image2 = cv2.resize(image2, (image1.shape[1], image1.shape[0]))
 
-    alpha = 0.5
+    alpha = transparency
     beta = 1 - alpha
 
     blended_image = cv2.addWeighted(image1, alpha, image2, beta, 0)
