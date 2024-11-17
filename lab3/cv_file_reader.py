@@ -5,6 +5,22 @@ second_image = "Example2.jpg"
 
 
 def image_analyze(path: str):
+    """
+       Analyzes the color image by generating and displaying its histogram.
+
+       Args:
+           path (str): The file path to the input image.
+
+       Description:
+           - Loads the input image in color mode.
+           - Extracts and prints the dimensions of the image (width, height, and number of channels).
+           - Computes the histogram for each color channel (Blue, Green, Red) using OpenCV.
+           - Plots the histograms with Matplotlib, including proper labels, grid, and legends.
+           - The x-axis represents pixel intensity values (0-255), while the y-axis shows the pixel count.
+
+       Example:
+           image_analyze("path/to/image.jpg")
+       """
     image = cv2.imread(path, cv2.IMREAD_COLOR)
     height, width, channels = image.shape
     print("Image shape:", width, "x", height)
@@ -28,6 +44,23 @@ def image_analyze(path: str):
 
 
 def image_blend(og_image: str, blend_image: str):
+    """
+      Blends two images together and displays the result alongside the original image.
+
+      Args:
+          og_image (str): The file path to the first (original) image.
+          blend_image (str): The file path to the second image to blend with the original.
+
+      Description:
+          - Loads both images in color mode using OpenCV.
+          - Resizes the second image to match the dimensions of the first image.
+          - Blends the two images using the specified alpha (opacity) and beta values.
+          - Displays both the original image and the blended image side by side using Matplotlib.
+          - Saves the blended image to a file (`./lab3/blended_image.jpg`).
+
+      Example:
+          image_blend("path/to/image1.jpg", "path/to/image2.jpg")
+      """
     image1 = cv2.imread(og_image)
     image2 = cv2.imread(blend_image)
 
