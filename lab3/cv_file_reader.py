@@ -1,9 +1,11 @@
 import cv2
 import matplotlib.pyplot as plt
 
+second_image = "Example2.jpg"
+
 
 def image_analyze(path: str):
-    image = cv2.imread(path,  cv2.IMREAD_COLOR)
+    image = cv2.imread(path, cv2.IMREAD_COLOR)
     height, width, channels = image.shape
     print("Image shape:", width, "x", height)
 
@@ -11,7 +13,6 @@ def image_analyze(path: str):
     plt.figure(figsize=(10, 6))
 
     for i, color in enumerate(colors):
-
         histogram = cv2.calcHist([image], [i], None, [256], [0, 256])
 
         plt.plot(histogram, color=color, label=f"{color.upper()} channel")
@@ -25,12 +26,12 @@ def image_analyze(path: str):
     plt.grid()
     plt.show()
 
-def image_blend():
-    # Чтение изображений
-    image1 = cv2.imread(image1_path)
-    image2 = cv2.imread(image2_path)
 
-    # Изменение размера второго изображения, чтобы оно соответствовало первому
+def image_blend(og_image: str, blend_image: str):
+    # Чтение изображений
+    image1 = cv2.imread(og_image)
+    image2 = cv2.imread(blend_image)
+
     image2 = cv2.resize(image2, (image1.shape[1], image1.shape[0]))
 
     # Установка параметра прозрачности (alpha)
@@ -44,5 +45,8 @@ def image_blend():
     plt.figure(figsize=(10, 6))
     plt.title("Blended Image")
     plt.axis('off')
-    plt.imshow(cv2.cvtColor(blended_image, cv2.COLOR_BGR2RGB))
+    #plt.imshow(cv2.cvtColor(blended_image, cv2.COLOR_BGR2RGB))
+    plt.imshow(blended_image)
     plt.show()
+
+    cv2.imwrite('./lab3/blended_image.jpg', blended_image)
