@@ -14,8 +14,14 @@ def _parse_arguments() -> Namespace:
         prog="main.py",
         description="path to file to convert",
     )
-    parser.add_argument("pth1image", type=str, help="path to first image")
-    parser.add_argument("-p", "--pth2image", type=str, default=second_image, help="path to second image")
-    parser.add_argument("-t", "--transparency", type=float, default=0.5, help="transparency modifier")
+    parser.add_argument("csv_path", type=str, help="path to csv file")
     return parser.parse_args()
 
+
+def main():
+    args = _parse_arguments()
+    make_dataframe(args.csv_path)
+
+
+if __name__ == "__main__":
+    main()
