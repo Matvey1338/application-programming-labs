@@ -1,7 +1,7 @@
 import argparse
 from argparse import Namespace
 
-from Datafr import make_dataframe
+from Datafr import make_dataframe, filter_images_by_size
 
 
 def _parse_arguments() -> Namespace:
@@ -20,7 +20,9 @@ def _parse_arguments() -> Namespace:
 
 def main():
     args = _parse_arguments()
-    make_dataframe(args.csv_path)
+    sd = make_dataframe(args.csv_path)
+    ds = filter_images_by_size(sd,1000,1000)
+    print(ds)
 
 
 if __name__ == "__main__":
