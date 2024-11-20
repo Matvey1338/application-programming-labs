@@ -1,5 +1,6 @@
 import cv2
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def make_dataframe(path):
@@ -21,13 +22,17 @@ def make_dataframe(path):
             return None, None, None
 
     df[['Height', 'Width', 'Depth']] = df['Absolute Path'].apply(
-        lambda path: pd.Series(get_image_info_cv2(path))
+        lambda image_path: pd.Series(get_image_info_cv2(image_path))
     )
     # Вычисляем статистическую информацию для столбцов "Height", "Width" и "Depth"
     stats = df[['Height', 'Width', 'Depth']].describe()
 
     # Выводим статистику
+    df['Area'] = df['Height'] * df['Width']
+    df = df.sort_values(by='Area')
+
     print(df)
+
     return df
 
 
