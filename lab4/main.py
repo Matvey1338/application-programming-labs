@@ -1,8 +1,7 @@
 import argparse
 from argparse import Namespace
 
-from  Datafr import *
-#from Datafr import make_dataframe, filter_images_by_size, show_area_dist
+from Datafr import *
 
 
 def _parse_arguments() -> Namespace:
@@ -22,8 +21,21 @@ def _parse_arguments() -> Namespace:
 def main():
     args = _parse_arguments()
     sd = make_dataframe(args.csv_path)
-    ds = filter_images_by_size(sd, 1000, 1000)
-    print(ds)
+    print(f"New data frame\n{sd}")
+
+    sd = additional_columns(sd)
+    print(f"Make new columns shape\n{sd}")
+
+    print(f"calculate shape\n{calculate_stat(sd)}")
+
+    max_width = 1000
+    max_height = 1000
+    print(f"Filtered dataframe\n{filter_images_by_size(sd, max_width, max_height)}")
+
+    sd = make_area_column(sd)
+    print(f"Dataframe with area column{sd}")
+
+    make_histogram(sd)
 
 
 if __name__ == "__main__":
