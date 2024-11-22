@@ -1,30 +1,20 @@
 import cv2
 import matplotlib.pyplot as plt
+import numpy
 
 second_image = "Example2.jpg"
 
 
-def image_analyze(path: str):
-    """
-       Analyzes the color image by generating and displaying its histogram.
-
-       Args:
-           path (str): The file path to the input image.
-
-       Description:
-           - Loads the input image in color mode.
-           - Extracts and prints the dimensions of the image (width, height, and number of channels).
-           - Computes the histogram for each color channel (Blue, Green, Red) using OpenCV.
-           - Plots the histograms with Matplotlib, including proper labels, grid, and legends.
-           - The x-axis represents pixel intensity values (0-255), while the y-axis shows the pixel count.
-
-       Example:
-           image_analyze("path/to/image.jpg")
-       """
+def image_analyze(path: str) -> numpy.ndarray:
     image = cv2.imread(path, cv2.IMREAD_COLOR)
-    height, width, channels = image.shape
-    print("Image shape:", width, "x", height)
+    return image
 
+
+def image_shape(image: numpy.ndarray) -> tuple:
+    return image.shape[:2]
+
+
+def make_histogram(image: numpy.ndarray) -> None:
     colors = ('b', 'g', 'r')
     plt.figure(figsize=(10, 6))
 
@@ -56,8 +46,6 @@ def image_blend(og_image: str, blend_image: str, transparency: float = 0.5):
           - Loads both images in color mode using OpenCV.
           - Resizes the second image to match the dimensions of the first image.
           - Blends the two images using the specified alpha (opacity) and beta values.
-          - Displays both the original image and the blended image side by side using Matplotlib.
-          - Saves the blended image to a file (`./lab3/blended_image.jpg`).
 
       Example:
           image_blend("path/to/image1.jpg", "path/to/image2.jpg")
@@ -71,7 +59,10 @@ def image_blend(og_image: str, blend_image: str, transparency: float = 0.5):
     beta = 1 - alpha
 
     blended_image = cv2.addWeighted(image1, alpha, image2, beta, 0)
+    return blended_image
 
+
+def show_comprasion(image1, blended_image):
     plt.figure(figsize=(15, 6))
 
     plt.subplot(1, 2, 1)
@@ -86,4 +77,6 @@ def image_blend(og_image: str, blend_image: str, transparency: float = 0.5):
 
     plt.show()
 
-    cv2.imwrite('./lab3/blended_image.jpg', blended_image)
+
+def save_image(image) -> None:
+    cv2.imwrite('./lab3/blended_image.jpg', image)

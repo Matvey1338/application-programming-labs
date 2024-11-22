@@ -1,7 +1,7 @@
 import argparse
 from argparse import Namespace
 
-from cv_file_reader import image_analyze, image_blend, second_image
+from cv_file_reader import *
 
 
 def _parse_arguments() -> Namespace:
@@ -23,10 +23,16 @@ def _parse_arguments() -> Namespace:
 def main():
     try:
         args = _parse_arguments()
-        image_analyze(args.pth1image)
-        image_blend(args.pth1image, args.pth2image, args.transparency)
+        image = image_analyze(args.pth1image)
     except FileNotFoundError:
         print(FileNotFoundError)
+        return None
+    make_histogram(image)
+    print(type(image_shape(image)))
+    blended_image = image_blend(args.pth1image, args.pth2image, 0.5)
+    print(type(blended_image))
+    make_histogram(blended_image)
+    show_comprasion(image, blended_image)
 
 
 if __name__ == "__main__":
