@@ -2,8 +2,6 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy
 
-second_image = "Example2.jpg"
-
 
 def image_analyze(path: str) -> numpy.ndarray:
     """
@@ -32,27 +30,45 @@ def image_shape(image: numpy.ndarray) -> tuple:
     return image.shape[:2]
 
 
-def make_histogram(image: numpy.ndarray) -> None:
+def calculate_histogram(image: numpy.ndarray) -> dict[str, numpy.ndarray]:
     """
-        Generates and displays a histogram of the input image, showing pixel intensity
-        distributions for the blue, green, and red color channels.
+    Calculates the histogram of the input image for the blue, green, and red color channels.
 
-        Args:
-            image (np.ndarray): The input image in BGR format.
+    Args:
+        image (np.ndarray): The input image in BGR format.
 
-        Returns:
-            None
-        """
+    Returns:
+        dict[str, np.ndarray]: A dictionary where keys are color channel names ('B', 'G', 'R'),
+        and values are the corresponding histograms.
+    """
     colors = ('b', 'g', 'r')
-    plt.figure(figsize=(10, 6))
+    histograms = {}
 
     for i, color in enumerate(colors):
         histogram = cv2.calcHist([image], [i], None, [256], [0, 256])
+        histograms[color.upper()] = histogram
 
-        plt.plot(histogram, color=color, label=f"{color.upper()} channel")
+    return histograms
+
+
+def show_histogram(histograms: dict[str, numpy.ndarray]) -> None:
+    """
+    Plots the histogram of pixel intensities for the blue, green, and red color channels.
+
+    Args:
+        histograms (dict[str, np.ndarray]): A dictionary where keys are color channel names ('B', 'G', 'R'),
+        and values are the corresponding histograms.
+
+    Returns:
+        None
+    """
+    plt.figure(figsize=(10, 6))
+    color_map = {'B': 'blue', 'G': 'green', 'R': 'red'}
+
+    for color, histogram in histograms.items():
+        plt.plot(histogram, color = color_map[color], label = f"{color} channel")
         plt.xlim([0, 256])
 
-    # Добавляем подписи и легенду
     plt.title("Гистограмма цветного изображения")
     plt.xlabel("Значение интенсивности пикселя")
     plt.ylabel("Количество пикселей")
@@ -61,27 +77,20 @@ def make_histogram(image: numpy.ndarray) -> None:
     plt.show()
 
 
-def image_blend(og_image: str, blend_image: str, transparency: float = 0.5) -> numpy.ndarray:
+def image_blend(image1: numpy.ndarray, image2: numpy.ndarray, transparency: float = 0.5) -> numpy.ndarray:
     """
-      Blends two images together and displays the result alongside the original image.
+    Blends two images together and returns the result.
 
-      Args:
-          og_image (str): The file path to the first (original) image.
-          blend_image (str): The file path to the second image to blend with the original.
-          transparency (float): The modifier of blend image
+    Args:
+        image1 (np.ndarray): The first (original) image.
+        image2 (np.ndarray): The second image to blend with the first.
+        transparency (float): The alpha transparency for blending. Defaults to 0.5.
 
-      Description:
-          - Loads both images in color mode using OpenCV.
-          - Resizes the second image to match the dimensions of the first image.
-          - Blends the two images using the specified alpha (opacity) and beta values.
-
-      Example:
-          image_blend("path/to/image1.jpg", "path/to/image2.jpg")
-      """
-    image1 = cv2.imread(og_image)
-    image2 = cv2.imread(blend_image)
-
-    image2 = cv2.resize(image2, (image1.shape[1], image1.shape[0]))
+    Returns:
+        np.ndarray: The blended image.
+    """
+    if image1.shape[:2] != image2.shape[:2]:
+        image2 = cv2.resize(image2, (image1.shape[1], image1.shape[0]))
 
     alpha = transparency
     beta = 1 - alpha

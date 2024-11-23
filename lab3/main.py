@@ -15,7 +15,7 @@ def _parse_arguments() -> Namespace:
         description="path to file to convert",
     )
     parser.add_argument("pth1image", type=str, help="path to first image")
-    parser.add_argument("-p", "--pth2image", type=str, default=second_image, help="path to second image")
+    parser.add_argument("-p", "--pth2image", type=str, help="path to second image")
     parser.add_argument("-t", "--transparency", type=float, default=0.5, help="transparency modifier")
     return parser.parse_args()
 
@@ -24,19 +24,22 @@ def main():
     try:
         args = _parse_arguments()
         image = image_analyze(args.pth1image)
+        second_image = image_analyze(args.pth2image)
     except FileNotFoundError:
         print(FileNotFoundError)
         return None
     print(f"Размер полученного изображения, Высота: {image_shape(image)[0]}, Ширина: {image_shape(image)[1]}")
 
     print("Гистограмма полученного изображения")
-    make_histogram(image)
+    histogram = calculate_histogram(image)
+    show_histogram(histogram)
 
     print("Накладываем изображение на другое...")
-    blended_image = image_blend(args.pth1image, args.pth2image, args.transparency)
+    blended_image = image_blend(image, second_image, args.transparency)
 
     print("Гистограмма смешанного изображения")
-    make_histogram(blended_image)
+    histogram = calculate_histogram(blended_image)
+    show_histogram(histogram)
 
     print("Сравнение оригинала и преобразованного экземпляра")
     show_comprasion(image, blended_image)
