@@ -27,12 +27,22 @@ def main():
     except FileNotFoundError:
         print(FileNotFoundError)
         return None
+    print(f"Размер полученного изображения, Высота: {image_shape(image)[0]}, Ширина: {image_shape(image)[1]}")
+
+    print("Гистограмма полученного изображения")
     make_histogram(image)
-    print(type(image_shape(image)))
-    blended_image = image_blend(args.pth1image, args.pth2image, 0.5)
-    print(type(blended_image))
+
+    print("Накладываем изображение на другое...")
+    blended_image = image_blend(args.pth1image, args.pth2image, args.transparency)
+
+    print("Гистограмма смешанного изображения")
     make_histogram(blended_image)
+
+    print("Сравнение оригинала и преобразованного экземпляра")
     show_comprasion(image, blended_image)
+
+    print("Сохраняем изображение")
+    save_image(blended_image)
 
 
 if __name__ == "__main__":

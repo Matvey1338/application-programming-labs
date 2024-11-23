@@ -6,15 +6,43 @@ second_image = "Example2.jpg"
 
 
 def image_analyze(path: str) -> numpy.ndarray:
+    """
+    Analyzes the image by loading it from the specified path.
+
+    Args:
+        path (str): The file path to the image.
+
+    Returns:
+        np.ndarray: The loaded image in BGR format.
+    """
     image = cv2.imread(path, cv2.IMREAD_COLOR)
     return image
 
 
 def image_shape(image: numpy.ndarray) -> tuple:
+    """
+       Returns the dimensions (height and width) of the input image.
+
+       Args:
+           image (np.ndarray): The input image.
+
+       Returns:
+           tuple[int, int]: A tuple containing the height and width of the image.
+       """
     return image.shape[:2]
 
 
 def make_histogram(image: numpy.ndarray) -> None:
+    """
+        Generates and displays a histogram of the input image, showing pixel intensity
+        distributions for the blue, green, and red color channels.
+
+        Args:
+            image (np.ndarray): The input image in BGR format.
+
+        Returns:
+            None
+        """
     colors = ('b', 'g', 'r')
     plt.figure(figsize=(10, 6))
 
@@ -33,7 +61,7 @@ def make_histogram(image: numpy.ndarray) -> None:
     plt.show()
 
 
-def image_blend(og_image: str, blend_image: str, transparency: float = 0.5):
+def image_blend(og_image: str, blend_image: str, transparency: float = 0.5) -> numpy.ndarray:
     """
       Blends two images together and displays the result alongside the original image.
 
@@ -62,7 +90,17 @@ def image_blend(og_image: str, blend_image: str, transparency: float = 0.5):
     return blended_image
 
 
-def show_comprasion(image1, blended_image):
+def show_comprasion(image1: numpy.ndarray, blended_image: numpy.ndarray) -> None:
+    """
+    Displays the original image and blended image side by side for comparison.
+
+    Args:
+        image1 (np.ndarray): The original image.
+        blended_image (np.ndarray): The blended image.
+
+    Returns:
+        None
+    """
     plt.figure(figsize=(15, 6))
 
     plt.subplot(1, 2, 1)
@@ -78,5 +116,15 @@ def show_comprasion(image1, blended_image):
     plt.show()
 
 
-def save_image(image) -> None:
-    cv2.imwrite('./lab3/blended_image.jpg', image)
+def save_image(image: numpy.ndarray, path_to_save: str = './lab3/blended_image.jpg') -> None:
+    """
+    Saves the image to the specified file path.
+
+    Args:
+        image (np.ndarray): The image to save.
+        path_to_save (str, optional): The path to save the image. Defaults to './lab3/blended_image.jpg'.
+
+    Returns:
+        None
+    """
+    cv2.imwrite(path_to_save, image)
