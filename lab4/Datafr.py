@@ -1,7 +1,8 @@
-import cv2
-import pandas as pd
-import matplotlib.pyplot as plt
 from typing import Optional
+
+import cv2
+import matplotlib.pyplot as plt
+import pandas as pd
 
 
 def make_dataframe(path: str) -> Optional[pd.DataFrame]:
@@ -18,11 +19,10 @@ def make_dataframe(path: str) -> Optional[pd.DataFrame]:
     try:
         df = pd.read_csv(path)
     except FileNotFoundError:
-        print("There is not csv file to dataframe")
-        return None
+        raise
 
     pd.set_option('display.max_colwidth', None)
-    df.columns = ['Relative Path', 'Absolute Path']
+    df.columns = ['Relative_Path', 'Absolute_Path']
 
     return df
 
@@ -46,11 +46,10 @@ def additional_columns(df: pd.DataFrame) -> pd.DataFrame:
             else:
                 print(f"Can't load image: {image_path}")
                 return None, None, None
-        except Exception as e:
-            print(f"Error while compilating {image_path}: {e}")
-            return None, None, None
+        except Exception:
+            raise
 
-    df[['Height', 'Width', 'Depth']] = df['Absolute Path'].apply(
+    df[['Height', 'Width', 'Depth']] = df['Absolute_Path'].apply(
         lambda image_path: pd.Series(get_image_info_cv2(image_path))
     )
     return df
@@ -98,6 +97,10 @@ def make_area_column(df: pd.DataFrame) -> pd.DataFrame:
         pd.DataFrame: The updated DataFrame with the new 'Area' column.
     """
     df['Area'] = df['Height'] * df['Width']
+    return df
+
+
+def sort_area(df: pd.DataFrame) -> pd.DataFrame:
     df = df.sort_values(by='Area')
     return df
 

@@ -20,11 +20,19 @@ def _parse_arguments() -> Namespace:
 
 def main():
     args = _parse_arguments()
-    sd = make_dataframe(args.csv_path)
-    print(f"New data frame\n{sd}")
+    try:
+        sd = make_dataframe(args.csv_path)
+        print(f"New data frame\n{sd}")
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+        return None
 
-    sd = additional_columns(sd)
-    print(f"Make new columns shape\n{sd}")
+    try:
+        sd = additional_columns(sd)
+        print(f"Make new columns shape\n{sd}")
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
 
     print(f"calculate shape\n{calculate_stat(sd)}")
 
@@ -34,6 +42,9 @@ def main():
 
     sd = make_area_column(sd)
     print(f"Dataframe with area column{sd}")
+
+    sd = sort_area(sd)
+    print(f"Sorted Dataframe:\n{sd}")
 
     make_histogram(sd)
 
