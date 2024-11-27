@@ -21,7 +21,11 @@ class Imagewindow(QtWidgets.QMainWindow):
         self.image_iterator = None
         self.history = []
 
-    def choose_csv(self):
+    def choose_csv(self) -> None:
+        """
+        Opens a file dialog to choose a CSV file, initializes the image iterator,
+        switches to the display widget, and skips the first row of the CSV file.
+        """
         file_path, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Select Annotation File", "", "CSV Files (*.csv)")
         if file_path:
             self.image_iterator = iter(ImgIterator(file_path))
@@ -29,13 +33,17 @@ class Imagewindow(QtWidgets.QMainWindow):
             self.history = []  # Очистить историю
             self.skip_csv_intro()
 
-    def skip_csv_intro(self):
+    def skip_csv_intro(self) -> None:
+        """
+        Skips the first row of the CSV file and displays the first image.
+        """
         next(self.image_iterator, None)
         self.show_next_image()
 
-    def show_next_image(self):
+    def show_next_image(self) -> None:
         """
-        Отображает следующую фотографию из CSV.
+        Displays the next image from the CSV file. If no more images are available,
+        displays a message in the label.
         """
         try:
             # Получаем следующий путь к изображению
@@ -47,9 +55,10 @@ class Imagewindow(QtWidgets.QMainWindow):
             self.history.append("decoy")
             self.ui.btn_right.setEnabled(False)
 
-    def show_previous_image(self):
+    def show_previous_image(self) -> None:
         """
-        Отображает предыдущую фотографию, если есть в истории.
+        Displays the previous image if there is one in the history.
+        If no previous images exist, does nothing.
         """
         if len(self.history) > 1:
             # Enable the 'Next' button if it was disabled
@@ -73,9 +82,12 @@ class Imagewindow(QtWidgets.QMainWindow):
             for _ in range(current_position + 1):
                 next(self.image_iterator)
 
-    def display_image(self, image_path):
+    def display_image(self, image_path: str) -> None:
         """
-        Загружает и отображает изображение по указанному пути.
+        Loads and displays an image in the QLabel.
+
+        Args:
+            image_path (str): The absolute path to the image file.
         """
         if os.path.exists(image_path):
             pixmap = QPixmap(image_path)
